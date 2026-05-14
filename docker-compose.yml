@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  worldwise-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: worldwise-app:latest
+    container_name: worldwise-app
+    ports:
+      - "8080:80"
+    restart: unless-stopped
