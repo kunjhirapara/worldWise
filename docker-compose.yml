@@ -7,6 +7,9 @@ services:
       dockerfile: Dockerfile
     image: worldwise-app:latest
     container_name: worldwise-app
-    ports:
-      - "8080:80"
     restart: unless-stopped
+
+networks:
+  default:
+    name: npm_default
+    external: true
