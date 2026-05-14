@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import {
   MapContainer,
   Marker,
@@ -7,22 +7,22 @@ import {
   useMap,
   useMapEvents,
 } from "react-leaflet";
-import {useNavigate} from "react-router-dom";
-import {useCities} from "../contexts/CitiesContext";
-import {useGeolocation} from "../hooks/useGeolocation";
-import {useUrlPosition} from "../hooks/useUrlPosition";
+import { useNavigate } from "react-router-dom";
+import { useCities } from "../contexts/CitiesContext";
+import { useGeolocation } from "../hooks/useGeolocation";
+import { useUrlPosition } from "../hooks/useUrlPosition";
 import Button from "./Button";
-import {flagemojiToPNG} from "./CityItem";
+import { flagemojiToPNG } from "./CityItem";
 import styles from "./Map.module.css";
-import type {CityState} from "../type";
+import type { CityState } from "../type";
 
 function Map() {
-  const {cities, currentCity} = useCities();
+  const { cities, currentCity } = useCities();
   const [currentActiveCity, setCurrentActiveCity] = useState<CityState | null>(
-    currentCity
+    currentCity,
   );
-  const {lat: mapLat, lng: mapLng} = useUrlPosition();
-  const [position, setPosition] = useState<{lat: number; lng: number}>({
+  const { lat: mapLat, lng: mapLng } = useUrlPosition();
+  const [position, setPosition] = useState<{ lat: number; lng: number }>({
     lat: 38.72757241420325,
     lng: -9.140539169311525,
   });
@@ -38,7 +38,7 @@ function Map() {
 
   useEffect(() => {
     if (mapLat && mapLng) {
-      setPosition({lat: Number(mapLat), lng: Number(mapLng)});
+      setPosition({ lat: Number(mapLat), lng: Number(mapLng) });
     }
   }, [mapLat, mapLng]);
   useEffect(() => {
@@ -58,11 +58,13 @@ function Map() {
         </Button>
       )}
       <MapContainer
+        // @ts-expect-error Types mismatch in react-leaflet v5
         center={position}
         zoom={13}
         scrollWheelZoom={true}
         className={styles.map}>
         <TileLayer
+          // @ts-expect-error Types mismatch in react-leaflet v5
           attribution='&copy; <a href="https://www.openstreetmap.fr/hot/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
@@ -94,7 +96,11 @@ function Map() {
     </div>
   );
 }
-function ChangePosition({position}: {position: {lat: number; lng: number}}) {
+function ChangePosition({
+  position,
+}: {
+  position: { lat: number; lng: number };
+}) {
   const map = useMap();
   map.setView(position, 10);
   return null;
@@ -108,7 +114,7 @@ function DetectClick({
   const navigate = useNavigate();
 
   useMapEvents({
-    click: (e) => {
+    click: (e: any) => {
       setCurrentActiveCity({
         cityName: "save the city to see the name on the map",
         country: "",
