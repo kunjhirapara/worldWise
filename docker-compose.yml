@@ -7,7 +7,6 @@ services:
       dockerfile: Dockerfile
       args:
         VITE_API_URL: /api
-    image: worldwise-app:latest
     container_name: worldwise-app
     restart: unless-stopped
     depends_on:
@@ -17,7 +16,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.api
-    image: worldwise-api:latest
     container_name: worldwise-api
     restart: unless-stopped
 
